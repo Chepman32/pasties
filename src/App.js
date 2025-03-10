@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Typography, Button, Row, Col, Card, Form, Input, Select, message, Drawer } from 'antd';
 import { PhoneOutlined, MailOutlined, HomeOutlined, ShoppingOutlined, UserOutlined, BankOutlined, MessageOutlined, LeftOutlined, RightOutlined, MenuOutlined } from '@ant-design/icons';
-import Slide1 from "./assets/images/1.png";
 import Slide2 from "./assets/images/2.png";
 import Slide3 from "./assets/images/3.png";
 import Slide4 from "./assets/images/4.png";
 import Slide5 from "./assets/images/5.png";
 import Slide6 from "./assets/images/6.png";
+import Video from "./assets/images/video.mp4";
 
 const { Footer, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -341,7 +341,7 @@ const PastiesRuWholesale = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isAnimating) {
+      if (!isAnimating && slideIndex !== 0) { // Only auto-slide when not on video (index 0)
         nextSlide();
       }
     }, 5000);
@@ -359,7 +359,7 @@ const PastiesRuWholesale = () => {
   ];
 
   const promoPhotos = [
-    { id: 1, src: Slide1 },
+    { id: 1, src: Video, isVideo: true },
     { id: 2, src: Slide2 },
     { id: 3, src: Slide3 },
     { id: 4, src: Slide4 },
@@ -534,12 +534,23 @@ const PastiesRuWholesale = () => {
                   </Button>
                   
                   {promoPhotos.map((photo, index) => (
-                    <img 
-                      key={photo.id}
-                      src={photo.src} 
-                      alt={`Slide ${photo.id}`}
-                      style={getSlideStyle(index)}
-                    />
+                    photo.isVideo ? (
+                      <video
+                        key={photo.id}
+                        src={photo.src}
+                        autoPlay
+                        loop
+                        muted
+                        style={getSlideStyle(index)}
+                      />
+                    ) : (
+                      <img 
+                        key={photo.id}
+                        src={photo.src} 
+                        alt={`Slide ${photo.id}`}
+                        style={getSlideStyle(index)}
+                      />
+                    )
                   ))}
                   
                   <Button 
