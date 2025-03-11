@@ -56,11 +56,7 @@ const styles = {
   menuItem: {
     color: 'white',
     fontSize: '16px',
-    transition: 'color 0.3s ease',
     cursor: 'pointer',
-  },
-  menuItemHover: {
-    color: 'white',
   },
   hamburgerButton: {
     display: 'none',
@@ -160,6 +156,12 @@ const styles = {
     maxWidth: '800px',
     margin: '0 auto',
     padding: '20px',
+  },
+  privacyContent: {
+    maxWidth: '800px',
+    margin: '0 auto',
+    padding: '20px',
+    textAlign: 'left',
   },
   footer: {
     backgroundColor: '#333',
@@ -303,17 +305,18 @@ const responsiveStyles = `
   }
   .ant-menu-horizontal > .ant-menu-item:hover,
   .ant-menu-horizontal > .ant-menu-item-active,
-  .ant-menu-horizontal > .ant-menu-item-open {
+  .ant-menu-horizontal > .ant-menu-item-open,
+  .ant-menu-horizontal > .ant-menu-item-selected {
     color: white !important;
     border-bottom: none !important;
     text-decoration: none !important;
-  }
-  .ant-menu-horizontal > .ant-menu-item-selected {
-    color: white !important;
-    border-bottom: 2px solid white !important;
+    cursor: pointer !important;
   }
   .ant-menu-horizontal > .ant-menu-item::after {
     border-bottom: none !important;
+  }
+  .ant-menu-horizontal > .ant-menu-item-selected {
+    border-bottom: 2px solid white !important;
   }
 `;
 
@@ -326,7 +329,6 @@ const PastiesRuWholesale = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [prevButtonHover, setPrevButtonHover] = useState(false);
   const [nextButtonHover, setNextButtonHover] = useState(false);
-  const [hoveredItem, setHoveredItem] = useState(null);
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -341,7 +343,7 @@ const PastiesRuWholesale = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isAnimating && slideIndex !== 0) { // Only auto-slide when not on video (index 0)
+      if (!isAnimating && slideIndex !== 0) {
         nextSlide();
       }
     }, 5000);
@@ -815,6 +817,98 @@ const PastiesRuWholesale = () => {
             </Card>
           </div>
         );
+
+      case 'privacy':
+        return (
+          <div style={styles.container}>
+            <Title style={styles.sectionTitle}>Политика конфиденциальности</Title>
+            <div style={styles.privacyContent}>
+              <Text strong>Дата вступления в силу: 10 марта 2025 года</Text>
+              
+              <Title level={4}>1. Общие положения</Title>
+              <Paragraph>
+                1.1. Настоящая Политика конфиденциальности (далее – Политика) разработана в соответствии с Федеральным законом Российской Федерации № 152-ФЗ "О персональных данных" от 27 июля 2006 года и регулирует порядок обработки персональных данных пользователей сайта pastisy.ru (далее – Сайт), принадлежащего ООО "Пастис" (далее – Оператор).<br/>
+                1.2. Целью настоящей Политики является обеспечение защиты прав и свобод пользователей при обработке их персональных данных, включая защиту права на неприкосновенность частной жизни, личную и семейную тайну.<br/>
+                1.3. Использование Сайта означает безоговорочное согласие пользователя с настоящей Политикой и указанными в ней условиями обработки его персональных данных. В случае несогласия с условиями Политики пользователь должен воздержаться от использования Сайта.
+              </Paragraph>
+
+              <Title level={4}>2. Основные понятия</Title>
+              <Paragraph>
+                2.1. Персональные данные – любая информация, относящаяся к прямо или косвенно определенному или определяемому физическому лицу (субъекту персональных данных).<br/>
+                2.2. Обработка персональных данных – любое действие (операция) или совокупность действий (операций), совершаемых с использованием средств автоматизации или без таковых, включая сбор, запись, систематизацию, накопление, хранение, уточнение (обновление, изменение), извлечение, использование, передачу (распространение, предоставление, доступ), обезличивание, блокирование, удаление, уничтожение персональных данных.<br/>
+                2.3. Пользователь – любое лицо, осуществляющее доступ к Сайту и использующее его функционал.
+              </Paragraph>
+
+              <Title level={4}>3. Цели сбора персональных данных</Title>
+              <Paragraph>
+                3.1. Оператор собирает и обрабатывает персональные данные пользователей в следующих целях:<br/>
+                - Обработка запросов на оптовые поставки продукции (пэстисов и аксессуаров);<br/>
+                - Установление и поддержание связи с пользователями для предоставления информации о товарах и услугах;<br/>
+                - Заключение и исполнение договоров с партнерами и клиентами;<br/>
+                - Улучшение качества обслуживания и работы Сайта;<br/>
+                - Проведение маркетинговых мероприятий и рассылок (при наличии согласия пользователя);<br/>
+                - Выполнение требований законодательства Российской Федерации.
+              </Paragraph>
+
+              <Title level={4}>4. Категории собираемых данных</Title>
+              <Paragraph>
+                4.1. Оператор может собирать следующие персональные данные пользователей:<br/>
+                - Имя и фамилия;<br/>
+                - Название компании;<br/>
+                - Адрес электронной почты (e-mail);<br/>
+                - Номер телефона;<br/>
+                - Тип бизнеса (например, розничный магазин, интернет-магазин, дистрибьютор);<br/>
+                - Сообщения и иная информация, предоставленная пользователем через форму обратной связи;<br/>
+                - Технические данные: IP-адрес, данные о браузере, cookies, время посещения Сайта.<br/>
+                4.2. Пользователь предоставляет персональные данные добровольно через формы на Сайте или иные способы взаимодействия с Оператором.
+              </Paragraph>
+
+              <Title level={4}>5. Порядок и условия обработки персональных данных</Title>
+              <Paragraph>
+                5.1. Обработка персональных данных осуществляется с согласия пользователя, выраженного путем заполнения формы на Сайте или иного активного действия (например, отправки запроса).<br/>
+                5.2. Оператор обеспечивает конфиденциальность персональных данных и принимает необходимые организационные и технические меры для их защиты от неправомерного доступа, уничтожения, изменения, блокирования, копирования, распространения и иных незаконных действий.<br/>
+                5.3. Персональные данные обрабатываются в течение срока, необходимого для достижения целей обработки, указанных в пункте 3 настоящей Политики, либо до момента отзыва согласия пользователем.<br/>
+                5.4. Оператор вправе передавать персональные данные третьим лицам (например, курьерским службам, партнерам) исключительно для выполнения целей, указанных в пункте 3, при условии соблюдения такими лицами требований законодательства о защите персональных данных.
+              </Paragraph>
+
+              <Title level={4}>6. Права пользователей</Title>
+              <Paragraph>
+                6.1. Пользователь имеет право:<br/>
+                - Запрашивать у Оператора информацию об обработке его персональных данных;<br/>
+                - Требовать уточнения, блокирования или уничтожения своих персональных данных в случае, если они являются неполными, устаревшими, неточными или обрабатываются с нарушением законодательства;<br/>
+                - Отозвать свое согласие на обработку персональных данных, направив письменное уведомление Оператору;<br/>
+                - Обжаловать действия или бездействие Оператора в уполномоченный орган по защите прав субъектов персональных данных (Роскомнадзор) или в судебном порядке.<br/>
+                6.2. Для реализации своих прав пользователь может направить запрос на адрес электронной почты info@pastisy.ru или по почтовому адресу: г. Москва, ул. Примерная, д. 123.
+              </Paragraph>
+
+              <Title level={4}>7. Использование cookies</Title>
+              <Paragraph>
+                7.1. Сайт использует файлы cookies для улучшения работы и повышения удобства пользователей. Cookies собирают информацию о действиях пользователя на Сайте, включая данные об устройстве и посещенных страницах.<br/>
+                7.2. Пользователь может отключить использование cookies в настройках своего браузера, однако это может повлиять на функциональность Сайта.
+              </Paragraph>
+
+              <Title level={4}>8. Обеспечение безопасности данных</Title>
+              <Paragraph>
+                8.1. Оператор применяет современные методы шифрования и защиты данных для предотвращения несанкционированного доступа.<br/>
+                8.2. В случае выявления утечки персональных данных Оператор обязуется уведомить пользователей и соответствующие органы в порядке, установленном законодательством.
+              </Paragraph>
+
+              <Title level={4}>9. Изменения в Политике конфиденциальности</Title>
+              <Paragraph>
+                9.1. Оператор оставляет за собой право вносить изменения в настоящую Политику в любое время. Новая редакция Политики вступает в силу с момента ее размещения на Сайте.<br/>
+                9.2. Пользователям рекомендуется регулярно проверять актуальную версию Политики на Сайте.
+              </Paragraph>
+
+              <Title level={4}>10. Контактная информация</Title>
+              <Paragraph>
+                10.1. По всем вопросам, связанным с обработкой персональных данных, пользователи могут обращаться к Оператору:<br/>
+                - Электронная почта: info@pastisy.ru<br/>
+                - Телефон: +7 (978) 284-29-37<br/>
+                - Почтовый адрес: г. Москва, ул. Примерная, д. 123
+              </Paragraph>
+            </div>
+          </div>
+        );
         
       default:
         return <div>Страница не найдена</div>;
@@ -841,75 +935,35 @@ const PastiesRuWholesale = () => {
         </Button>
         <Menu.Item 
           key="main" 
-          style={{
-            color: 'white',
-            fontSize: '16px',
-            transition: 'color 0.3s ease',
-            cursor: 'pointer',
-            ...(hoveredItem === 'main' ? {color: 'white'} : {})
-          }}
-          onMouseEnter={() => setHoveredItem('main')}
-          onMouseLeave={() => setHoveredItem(null)}
+          style={styles.menuItem}
           aria-label="Navigate to Home"
         >
           Главная
         </Menu.Item>
         <Menu.Item 
           key="products" 
-          style={{
-            color: 'white',
-            fontSize: '16px',
-            transition: 'color 0.3s ease',
-            cursor: 'pointer',
-            ...(hoveredItem === 'products' ? {color: 'white'} : {})
-          }}
-          onMouseEnter={() => setHoveredItem('products')}
-          onMouseLeave={() => setHoveredItem(null)}
+          style={styles.menuItem}
           aria-label="Navigate to Products"
         >
           Купить в розницу
         </Menu.Item>
         <Menu.Item 
           key="about" 
-          style={{
-            color: 'white',
-            fontSize: '16px',
-            transition: 'color 0.3s ease',
-            cursor: 'pointer',
-            ...(hoveredItem === 'about' ? {color: 'white'} : {})
-          }}
-          onMouseEnter={() => setHoveredItem('about')}
-          onMouseLeave={() => setHoveredItem(null)}
+          style={styles.menuItem}
           aria-label="Navigate to About"
         >
           О нас
         </Menu.Item>
         <Menu.Item 
           key="testimonials" 
-          style={{
-            color: 'white',
-            fontSize: '16px',
-            transition: 'color 0.3s ease',
-            cursor: 'pointer',
-            ...(hoveredItem === 'testimonials' ? {color: 'white'} : {})
-          }}
-          onMouseEnter={() => setHoveredItem('testimonials')}
-          onMouseLeave={() => setHoveredItem(null)}
+          style={styles.menuItem}
           aria-label="Navigate to Testimonials"
         >
           Отзывы
         </Menu.Item>
         <Menu.Item 
           key="contact" 
-          style={{
-            color: 'white',
-            fontSize: '16px',
-            transition: 'color 0.3s ease',
-            cursor: 'pointer',
-            ...(hoveredItem === 'contact' ? {color: 'white'} : {})
-          }}
-          onMouseEnter={() => setHoveredItem('contact')}
-          onMouseLeave={() => setHoveredItem(null)}
+          style={styles.menuItem}
           aria-label="Navigate to Contact"
         >
           Контакты
@@ -994,7 +1048,7 @@ const PastiesRuWholesale = () => {
                 >
                   <img src={require('./assets/icons/Telegram.png')} style={styles.telegramLogo} alt="Telegram Logo" /> Telegram: @pastiesru_bot
                 </a>
-                <li style={{ marginBottom: '10px' }}><PhoneOutlined /> Телефон: +7 (800) 123-45-67</li>
+                <li style={{ marginBottom: '10px' }}><PhoneOutlined /> Телефон: +7 (978) 284-29-37</li>
                 <li style={{ marginBottom: '10px' }}><MailOutlined /> Email: info@pastisy.ru</li>
                 <li style={{ marginBottom: '10px' }}><HomeOutlined /> Адрес: г. Москва, ул. Примерная, д. 123</li>
               </ul>
@@ -1019,7 +1073,7 @@ const PastiesRuWholesale = () => {
                   </Button>
                 </li>
                 <li style={{ marginBottom: '10px' }}>
-                  <Button type="link" style={styles.footerLink} onClick={() => console.log('Privacy policy clicked')}>
+                  <Button type="link" style={styles.footerLink} onClick={() => setCurrent('privacy')}>
                     Политика конфиденциальности
                   </Button>
                 </li>
