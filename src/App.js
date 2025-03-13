@@ -330,6 +330,10 @@ const PastiesRuWholesale = () => {
   const [prevButtonHover, setPrevButtonHover] = useState(false);
   const [nextButtonHover, setNextButtonHover] = useState(false);
 
+  useEffect(() => {
+    document.title = "Pastisy.ru - крупнейший в России оптоптовый поставщик пэстисов"
+  }, [])
+
   const handleClick = (e) => {
     setCurrent(e.key);
     setDrawerVisible(false);
