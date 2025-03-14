@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Typography, Button, Row, Col, Card, Form, Input, Select, message, Drawer } from 'antd';
+import { Layout, Menu, Typography, Button, Row, Col, Card, Form, Input, Select, Drawer, Modal } from 'antd';
 import { PhoneOutlined, MailOutlined, HomeOutlined, ShoppingOutlined, UserOutlined, BankOutlined, MessageOutlined, LeftOutlined, RightOutlined, MenuOutlined } from '@ant-design/icons';
+import { useForm, ValidationError } from '@formspree/react';
 import Slide2 from "./assets/images/2.png";
 import Slide3 from "./assets/images/3.png";
 import Slide4 from "./assets/images/4.png";
@@ -82,7 +83,7 @@ const styles = {
   },
   wbLogo: {
     width: "40vw",
-    height: "auto",
+    height: 'auto',
   },
   hero: {
     padding: '60px 20px',
@@ -283,7 +284,47 @@ const styles = {
     height: '1.5rem',
     marginRight: '10px',
     display: 'inline-block',
-  }
+  },
+  customModal: {
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+    padding: '20px',
+    textAlign: 'center',
+    background: '#fff',
+  },
+  checkmarkCircle: {
+    background: '#d81b60',
+    borderRadius: '50%',
+    width: '60px',
+    height: '60px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: '15px',
+    color: '#fff',
+    fontSize: '24px',
+  },
+  modalTitle: {
+    fontSize: '28px', // Increased from 24px to 28px
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: '10px',
+  },
+  modalMessage: {
+    fontSize: '18px', // Increased from 16px to 18px
+    fontWeight: 500, // Slightly bolder (Ant Design's Paragraph uses 400 by default)
+    color: '#666',
+    marginBottom: '20px',
+  },
+  customButton: {
+    background: '#d81b60',
+    border: 'none',
+    color: '#fff',
+    padding: '8px 20px',
+    fontSize: '16px',
+    borderRadius: '8px', // Increased from 4px to 8px for more pronounced rounding
+    width: '100px',
+  },
 };
 
 const responsiveStyles = `
@@ -329,20 +370,23 @@ const PastiesRuWholesale = () => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [prevButtonHover, setPrevButtonHover] = useState(false);
   const [nextButtonHover, setNextButtonHover] = useState(false);
+  const [state, handleSubmit] = useForm("mrbpbzbj");
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
-    document.title = "Pastisy.ru - крупнейший в России оптоптовый поставщик пэстисов"
-  }, [])
+    document.title = "Pastisy.ru - крупнейший в России оптоптовый поставщик пэстисов";
+  }, []);
+
+  useEffect(() => {
+    if (state.succeeded) {
+      setModalVisible(true);
+      form.resetFields();
+    }
+  }, [state.succeeded, form]);
 
   const handleClick = (e) => {
     setCurrent(e.key);
     setDrawerVisible(false);
-  };
-
-  const handleSubmit = (values) => {
-    console.log('Form values:', values);
-    message.success('Спасибо за ваш запрос! Мы свяжемся с вами в ближайшее время.');
-    form.resetFields();
   };
 
   useEffect(() => {
@@ -762,6 +806,7 @@ const PastiesRuWholesale = () => {
                 >
                   <Input prefix={<UserOutlined />} placeholder="Ваше имя" />
                 </Form.Item>
+                <ValidationError prefix="Name" field="name" errors={state.errors} />
                 
                 <Form.Item
                   name="company"
@@ -770,6 +815,7 @@ const PastiesRuWholesale = () => {
                 >
                   <Input prefix={<BankOutlined />} placeholder="Название вашей компании" />
                 </Form.Item>
+                <ValidationError prefix="Company" field="company" errors={state.errors} />
                 
                 <Form.Item
                   name="email"
@@ -781,6 +827,7 @@ const PastiesRuWholesale = () => {
                 >
                   <Input prefix={<MailOutlined />} placeholder="Ваш email" />
                 </Form.Item>
+                <ValidationError prefix="Email" field="email" errors={state.errors} />
                 
                 <Form.Item
                   name="phone"
@@ -789,6 +836,8 @@ const PastiesRuWholesale = () => {
                 >
                   <Input prefix={<PhoneOutlined />} placeholder="Ваш телефон" />
                 </Form.Item>
+                <ValidationError prefix="Phone" field="phone" errors={state.errors} />
+                
                 <Form.Item
                   name="businessType"
                   label="Тип бизнеса"
@@ -801,6 +850,7 @@ const PastiesRuWholesale = () => {
                     <Option value="other">Другое</Option>
                   </Select>
                 </Form.Item>
+                <ValidationError prefix="BusinessType" field="businessType" errors={state.errors} />
                 
                 <Form.Item
                   name="message"
@@ -811,9 +861,15 @@ const PastiesRuWholesale = () => {
                     placeholder="Напишите о ваших потребностях и примерных объемах заказа"
                   />
                 </Form.Item>
+                <ValidationError prefix="Message" field="message" errors={state.errors} />
                 
                 <Form.Item>
-                  <Button type="primary" htmlType="submit" size="large">
+                  <Button 
+                    type="primary" 
+                    htmlType="submit" 
+                    size="large" 
+                    disabled={state.submitting}
+                  >
                     Отправить заявку
                   </Button>
                 </Form.Item>
@@ -1090,6 +1146,25 @@ const PastiesRuWholesale = () => {
           </div>
         </div>
       </Footer>
+
+      <Modal
+        visible={modalVisible}
+        onOk={() => setModalVisible(false)}
+        onCancel={() => setModalVisible(false)}
+        footer={null}
+        closable={false}
+        style={{ top: '20%', borderRadius: '8px' }}
+        bodyStyle={styles.customModal}
+      >
+        <div style={styles.checkmarkCircle}>✓</div>
+        <Title level={3} style={styles.modalTitle}>Потрясающе!</Title>
+        <Paragraph style={styles.modalMessage}>
+          Спасибо за ваш запрос! Мы свяжемся с вами в ближайшее время.
+        </Paragraph>
+        <Button style={styles.customButton} onClick={() => setModalVisible(false)}>
+          OK
+        </Button>
+      </Modal>
     </Layout>
   );
 };
